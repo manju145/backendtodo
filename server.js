@@ -1,11 +1,10 @@
 const express = require("express");
-
-const { connection } = require("./controllers/connection");
+const { connnection } = require("./controllers/connection");
+require("dotenv").config();
 const { router } = require("./Routers/user.router");
 const { auth } = require("./Middlewares/auth.middleware");
 const routertodo = require("./Routers/ToDoRoutes");
 const cors = require("cors");
-
 
 const app = express();
 
@@ -17,12 +16,13 @@ app.use("/api", routertodo);
 app.use(auth);
 
 
-app.listen(8000, async () => {
+//PORT
+app.listen(process.env.PORT_NUMBER, async () => {
   try {
-    await connection;
-    console.log("connected");
+    await connnection;
+    console.log("connected with db");
   } catch (error) {
-    console.log(error);
+    console.log({ msg: error.message });
   }
-  console.log("connected to db");
+  console.log(`server is running at port ${process.env.PORT_NUMBER}`);
 });
